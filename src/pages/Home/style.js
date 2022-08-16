@@ -8,6 +8,9 @@ const Container = styled.div`
   flex-direction: column;
   gap: 20px;
   margin-top: 30px;
+  p{
+    color: red;
+  }
 
   .divForm {
     background-color: #212529;

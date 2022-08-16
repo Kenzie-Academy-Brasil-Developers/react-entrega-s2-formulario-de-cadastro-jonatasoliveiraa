@@ -17,7 +17,7 @@ const Container = styled.div`
     padding-bottom:20px;
 
     span{
-      color: #fff;
+      color: red;
       font-size: 14px;
 
     }
