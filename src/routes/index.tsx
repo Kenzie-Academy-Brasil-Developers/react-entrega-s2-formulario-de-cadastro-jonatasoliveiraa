@@ -1,4 +1,3 @@
-import "../App.css";
 import Home from "../pages/Home";
 import Register from "../pages/Register";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -8,7 +7,7 @@ function RoutesMain() {
 
 
   return (
-    <div className="App">
+    <div>
         <Routes>
             <Route path="/" element={<Home />}/>
             <Route path="/register" element={<Register/>}/>

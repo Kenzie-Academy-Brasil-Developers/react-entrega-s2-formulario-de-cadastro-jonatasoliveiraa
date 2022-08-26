@@ -6,15 +6,18 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Form from "../../components/Form";
 
-import {ReactComponent as Logo} from "../../assets/Logo.svg";
-import {ReactComponent as Vector} from "../../assets/Vector.svg";
-import {ReactComponent as Plus} from "../../assets/Plus.svg";
+import Logo from "../../assets/Logo.svg";
+import Vector from "../../assets/Vector.svg";
+import Plus from "../../assets/Plus.svg";
 
 import { Header, Container, Main, Modal } from "./style";
 
 interface IFormAddTech{
+  id:string
   title:string
   status:string
+  created_at: Date
+  update_at: Date
 }
 
 

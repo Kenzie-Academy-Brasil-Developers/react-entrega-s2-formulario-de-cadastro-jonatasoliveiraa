@@ -5,7 +5,7 @@ import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup" ;
 
 import Form from "../../components/Form";
-import Logo from "../../@types/assets/Logo.svg";
+import Logo from "../../assets/Logo.svg";
 import Container from "./style";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";

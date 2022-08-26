@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import api from "../services/api";
-import { ITech, IUser, useAuth } from "./AuthContext";
+import { ITech, useAuth } from "./AuthContext";
 import { toast } from "react-toastify";
 
 
@@ -12,8 +12,8 @@ interface IDashContext{
   modal: boolean
   techs: ITech[]
   setTechs: (data: ITech[] | []) => void
-  addTech: (data: any) => void
-  removeTech:(tech: any) => void
+  addTech: (data: ITech) => void
+  removeTech:(tech: ITech) => void
   handleModal: () => void
 }
 
@@ -71,6 +71,8 @@ const DashProvider = ({ children }:IDashProps) => {
         setTechs(techs.filter((elem) => elem !== tech));
         const id = techs[i].id;
         api.delete(`/users/techs/${id}`);
+        toast.success(`${techs[i].title} removido com sucesso`);
+
       }
     }
   }
