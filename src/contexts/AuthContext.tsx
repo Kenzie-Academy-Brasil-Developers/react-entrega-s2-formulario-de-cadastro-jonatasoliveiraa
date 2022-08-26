@@ -1,15 +1,64 @@
-import { useContext } from "react";
+import { ReactNode, useContext } from "react";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ILogin } from "../pages/Home";
+import { IRegister } from "../pages/Register";
 import api from "../services/api";
 
-export const AuthContext = createContext({});
 
-const AuthProvider = ({ children }) => {
+interface AuthProps{
+  children: ReactNode
+}
+export interface ITech{
+  id:string
+  title:string
+  status:string
+  created_at: Date
+  update_at: Date
+
+}
+export interface IUser{
+  id:string
+  name:string
+  email:string
+  course_module:string
+  bio:string
+  contact:string
+  avatar_url:string
+  created_at: Date
+  update_at: Date
+  techs: ITech[]
+}
+interface IAuthContext{
+  user: IUser
+  signIn: (data: ILogin) => void
+  loading: boolean
+  registerUser: (data: IRegister) => void
+}
+
+interface IResponseLogin {
+  user: IUser
+  token: string
+}
+
+interface IResponseRegister{
+  id: string
+  name: string
+  email: string
+  course_module: string
+  bio: string
+  contact: string
+  created_at: Date
+  updated_at: Date
+  avatar_url?: string | null
+}
+export const AuthContext = createContext({} as IAuthContext);
+
+const AuthProvider = ({ children }:AuthProps) => {
   let navigate = useNavigate();
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<IUser>({} as IUser);
   const [loading, setLoading] = useState(true);
 
 
@@ -19,7 +68,8 @@ const AuthProvider = ({ children }) => {
 
       if (token) {
         try {
-          api.defaults.headers.authorization = `Bearer ${token}`;
+          const bearer = api.defaults.headers.common.authorization = `Bearer ${token}`;
+          console.log(bearer)
           const { data } = await api.get("/profile");
           setUser(data)
         } catch (error) {
@@ -32,12 +82,15 @@ const AuthProvider = ({ children }) => {
     loadUser();
   }, []);
 
-  const signIn = (data) => {
+  
+
+  const signIn = (data:ILogin) => {
     api
-      .post("sessions", data)
+      .post<IResponseLogin>("sessions", data)
       .then((res) => {
+        console.log(data)
         const { user: userResponse, token } = res.data;
-        api.defaults.headers.authorization = `Bearer ${token}`;
+        api.defaults.headers.common.authorization = `Bearer ${token}`;
 
         setUser(userResponse);
         localStorage.clear();
@@ -54,10 +107,10 @@ const AuthProvider = ({ children }) => {
       });
   };
 
- function registerUser(data) {
+ function registerUser(data:IRegister) {
     console.log(data);
     api
-      .post("users", data)
+      .post<IResponseRegister>("users", data)
       .then((res) => {
         console.log(res.data);
         toast.success("Conta cadastrada com sucesso!");

@@ -5,11 +5,15 @@ import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup" ;
 
 import Form from "../../components/Form";
-import Logo from "../../assets/Logo.svg";
+import Logo from "../../@types/assets/Logo.svg";
 import Container from "./style";
 import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext.jsx";
+import { AuthContext } from "../../contexts/AuthContext";
 
+export interface ILogin{
+  email:string
+  password:string
+}
 
 const schema = yup.object({
   email: yup.string().email("Deve ser um email").required("Digite um email válido"),
@@ -21,7 +25,7 @@ const Home = () => {
   const {signIn} = useContext(AuthContext)
 
   
-  const {register,handleSubmit, formState:{errors}} = useForm({
+  const {register,handleSubmit, formState:{errors}} = useForm<ILogin>({
     resolver: yupResolver(schema)
   })
   

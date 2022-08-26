@@ -3,11 +3,21 @@ import { Link } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import Logo from "../../assets/Logo.svg";
+import {ReactComponent as Logo} from "../../assets/Logo.svg";
 import Form from "../../components/Form";
 import Container from "./style";
 import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext.jsx";
+import { AuthContext } from "../../contexts/AuthContext";
+
+export interface IRegister{
+  name:string
+  email:string
+  password:string
+  confirmPassword:string
+  bio:string
+  contact:string
+  course_module:string
+}
 
 const schema = yup.object({
   name: yup.string().required("O nome é obrigatório"),
@@ -40,7 +50,7 @@ const Home = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IRegister>({
     resolver: yupResolver(schema),
   });
 

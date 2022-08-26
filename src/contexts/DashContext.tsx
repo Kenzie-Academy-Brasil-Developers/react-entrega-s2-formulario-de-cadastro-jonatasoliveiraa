@@ -1,17 +1,33 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import api from "../services/api";
-import { useAuth } from "./AuthContext";
+import { ITech, IUser, useAuth } from "./AuthContext";
 import { toast } from "react-toastify";
 
-export const DashContext = createContext({});
 
-const DashProvider = ({ children }) => {
+interface IDashProps{
+  children:ReactNode
+}
+
+interface IDashContext{
+  modal: boolean
+  techs: ITech[]
+  setTechs: (data: ITech[] | []) => void
+  addTech: (data: any) => void
+  removeTech:(tech: any) => void
+  handleModal: () => void
+}
+
+
+
+export const DashContext = createContext<IDashContext>({} as IDashContext);
+
+const DashProvider = ({ children }:IDashProps) => {
   const [modal, setModal] = useState(false);
-  const [techs, setTechs] = useState([]);
+  const [techs, setTechs] = useState<ITech[]>([] as ITech[]);
   const { user } = useAuth();
 
   function loadTechs() {
-    const id = JSON.parse(localStorage.getItem("@KenzieHub:id"));
+    const id = JSON.parse(localStorage.getItem("@KenzieHub:id") || "" );
     if (id) {
       api
         .get(`/users/${id}`)
@@ -28,7 +44,7 @@ const DashProvider = ({ children }) => {
     }
   }, [user?.techs]);
 
-  function addTech(data) {
+  function addTech(data:ITech) {
     api
       .post("/users/techs", data)
       .then((res) => {
@@ -49,7 +65,7 @@ const DashProvider = ({ children }) => {
     setModal(!modal);
   };
 
-  function removeTech(tech) {
+  function removeTech(tech:ITech) {
     for (let i = 0; i < techs.length; i++) {
       if (techs[i].id === tech.id) {
         setTechs(techs.filter((elem) => elem !== tech));

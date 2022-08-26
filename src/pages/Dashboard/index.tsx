@@ -6,11 +6,17 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Form from "../../components/Form";
 
-import Logo from "../../assets/Logo.svg";
-import Vector from "../../assets/Vector.svg";
-import Plus from "../../assets/Plus.svg";
+import {ReactComponent as Logo} from "../../assets/Logo.svg";
+import {ReactComponent as Vector} from "../../assets/Vector.svg";
+import {ReactComponent as Plus} from "../../assets/Plus.svg";
 
 import { Header, Container, Main, Modal } from "./style";
+
+interface IFormAddTech{
+  title:string
+  status:string
+}
+
 
 const Dashboard = () => {
   const { user, loading } = useContext(AuthContext);
@@ -20,7 +26,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm<IFormAddTech>();
 
   useEffect(() => {
     
