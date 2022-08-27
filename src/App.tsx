@@ -25,8 +25,8 @@ function App() {
             pauseOnHover
           />
         </DashProvider>
-      </AuthProvider>
-    </>
+      </AuthProvider> 
+    </> 
   );
 }
 
